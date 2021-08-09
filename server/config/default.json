@@ -1,0 +1,4 @@
+{
+    "mongoURI":"mongodb+srv://nisarg_test:test_nisarg@devconnector.4skcb.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+    "jwtToken":"scretkey"
+}

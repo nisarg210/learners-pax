@@ -1,0 +1,30 @@
+.dashboard-section {
+  position: relative;
+  min-height: 89vh;
+  /* background-color: #f8dd30; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+.dashboard-container {
+  position: relative;
+  margin-left: 20vw;
+  margin-right: 20vw;
+
+  width: 1000px;
+  /* height: 00px; */
+}
+/* .grid-dashboard{
+  display: flex;
+
+} */
+.icon-display{
+  vertical-align: middle;
+}
+
+.ui.card>.content,
+.ui.cards>.card>.content {
+  color: black;
+}
+
