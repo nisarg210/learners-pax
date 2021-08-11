@@ -1,0 +1,16 @@
+.acc-base {
+  position: relative;
+  min-height: 89vh;
+  /* background-color: #f8dd30; */
+  display: flex;
+  flex-direction: column;
+  /* justify-content: center; */
+  align-items: center;
+}
+.head-bar {
+    margin-top: 50px;
+}
+.dropdown-menu {
+   display: block;
+  margin-top: 100px;
+}
