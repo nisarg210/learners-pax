@@ -31,6 +31,26 @@ function Announcement() {
             name : "teacher",
             date: "September 14, 2013",
             title: "time table update",
+        },
+        {
+            name : "teacher",
+            date: "September 14, 2013",
+            title: "time table update",
+        },
+        {
+            name : "teacher",
+            date: "September 14, 2013",
+            title: "time table update",
+        },
+        {
+            name : "teacher",
+            date: "September 14, 2013",
+            title: "time table update",
+        },
+        {
+            name : "teacher",
+            date: "September 14, 2013",
+            title: "time table update",
         }
     ]
 
