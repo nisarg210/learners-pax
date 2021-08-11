@@ -1,7 +1,39 @@
 import React from "react";
-import { Divider, Dropdown, Grid, Header, Icon } from "semantic-ui-react";
+import {
+  Container,
+  Divider,
+  Dropdown,
+  Grid,
+  Header,
+  Icon,
+} from "semantic-ui-react";
+import AnnoMessage from "../components/AnnoMessage";
 import "./Announcement.css";
 function Announcement() {
+
+    const detail =[
+        {
+            name : "teacher",
+            date: "September 14, 2013",
+            title: "time table update",
+        },
+        {
+            name : "teacher",
+            date: "September 14, 2013",
+            title: "time table update",
+        },
+        {
+            name : "teacher",
+            date: "September 14, 2013",
+            title: "time table update",
+        },
+        {
+            name : "teacher",
+            date: "September 14, 2013",
+            title: "time table update",
+        }
+    ]
+
   const friendOptions = [
     {
       key: "Jenny Hess",
@@ -72,6 +104,10 @@ function Announcement() {
             <Dropdown placeholder="Subject" selection options={friendOptions} />
           </Grid.Column>
         </Grid>
+      </div>
+      <div className="messages">
+        <AnnoMessage data={detail} /><br/>
+       
       </div>
     </div>
   );
