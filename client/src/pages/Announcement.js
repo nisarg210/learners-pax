@@ -10,49 +10,48 @@ import {
 import AnnoMessage from "../components/AnnoMessage";
 import "./Announcement.css";
 function Announcement() {
-
-    const detail =[
-        {
-            name : "teacher",
-            date: "September 14, 2013",
-            title: "time table update",
-        },
-        {
-            name : "teacher",
-            date: "September 14, 2013",
-            title: "time table update",
-        },
-        {
-            name : "teacher",
-            date: "September 14, 2013",
-            title: "time table update",
-        },
-        {
-            name : "teacher",
-            date: "September 14, 2013",
-            title: "time table update",
-        },
-        {
-            name : "teacher",
-            date: "September 14, 2013",
-            title: "time table update",
-        },
-        {
-            name : "teacher",
-            date: "September 14, 2013",
-            title: "time table update",
-        },
-        {
-            name : "teacher",
-            date: "September 14, 2013",
-            title: "time table update",
-        },
-        {
-            name : "teacher",
-            date: "September 14, 2013",
-            title: "time table update",
-        }
-    ]
+  const detail = [
+    {
+      name: "teacher",
+      date: "September 14, 2013",
+      title: "time table update",
+    },
+    {
+      name: "teacher",
+      date: "September 14, 2013",
+      title: "time table update",
+    },
+    {
+      name: "teacher",
+      date: "September 14, 2013",
+      title: "time table update",
+    },
+    {
+      name: "teacher",
+      date: "September 14, 2013",
+      title: "time table update",
+    },
+    {
+      name: "teacher",
+      date: "September 14, 2013",
+      title: "time table update",
+    },
+    {
+      name: "teacher",
+      date: "September 14, 2013",
+      title: "time table update",
+    },
+    {
+      name: "teacher",
+      date: "September 14, 2013",
+      title: "time table update",
+    },
+    {
+      name: "teacher",
+      date: "September 14, 2013",
+      title: "time table update",
+    },
+  ];
 
   const friendOptions = [
     {
@@ -126,8 +125,8 @@ function Announcement() {
         </Grid>
       </div>
       <div className="messages">
-        <AnnoMessage data={detail} /><br/>
-       
+        <AnnoMessage data={detail} />
+        <br />
       </div>
     </div>
   );
