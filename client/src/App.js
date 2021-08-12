@@ -12,6 +12,7 @@ import NewNav from "./pages/NewNav";
 import Announcement from "./pages/Announcement";
 import { AnimatePresence, motion } from "framer-motion";
 import Dashboard from "./pages/Dashboard";
+import Note from "./pages/Note";
 
 function App() {
   // let location = useLocation();
@@ -27,6 +28,7 @@ function App() {
               <Route path="/login" exact component={NewLogin} />
               <Route path="/announcement" component={Announcement} />
               <Route path="/dashboard" component={Dashboard} />
+              <Route path="/note" component={Note} />
             </Switch>
           </AnimatePresence>
         </div>
