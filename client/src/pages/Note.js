@@ -45,7 +45,7 @@ function Note() {
         </Segment>
       </div>
       <div className="notefound">
-          
+          hello
       </div>
     </div>
   );
