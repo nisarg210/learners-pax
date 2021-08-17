@@ -13,6 +13,7 @@ import Announcement from "./pages/Announcement";
 import { AnimatePresence, motion } from "framer-motion";
 import Dashboard from "./pages/Dashboard";
 import Note from "./pages/Note";
+import Books from "./pages/Books";
 
 function App() {
   // let location = useLocation();
@@ -29,6 +30,7 @@ function App() {
               <Route path="/announcement" component={Announcement} />
               <Route path="/dashboard" component={Dashboard} />
               <Route path="/note" component={Note} />
+              <Route path="/book" component={Books} />
             </Switch>
           </AnimatePresence>
         </div>
