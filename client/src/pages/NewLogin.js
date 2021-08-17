@@ -3,22 +3,25 @@ import { motion } from "framer-motion";
 import Lottie from "lottie-web";
 import React, { useEffect, useRef, useState } from "react";
 import { useHistory } from "react-router-dom";
+import { useAppState } from "../state";
 import "./NewLogin.css";
 
 function NewLogin() {
+  const { setTeacher, getTeacher } = useAppState();
+
   const [name, setname] = useState("");
   const [branch, setBranch] = useState("");
   const [email, setemail] = useState("");
   const [password, setpassword] = useState("");
   const history = useHistory();
 
-  function setTeacher(teacher, tag = 1) {
-    localStorage.setItem("TEACHER", JSON.stringify(teacher));
-  }
+  // function setTeacher(teacher, tag = 1) {
+  //   localStorage.setItem("TEACHER", JSON.stringify(teacher));
+  // }
 
-  function getTeacher() {
-    return JSON.parse(localStorage.getItem("TEACHER"));
-  }
+  // function getTeacher() {
+  //   return JSON.parse(localStorage.getItem("TEACHER"));
+  // }
 
   const sendingLogin = async () => {
     try {
