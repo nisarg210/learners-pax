@@ -6,7 +6,9 @@
   justify-content: center;
   align-items: center;
   padding: 20px;
+  background-color: #f9fafb;
 }
+
 .dashboard-container {
   position: relative;
   margin-left: 20vw;

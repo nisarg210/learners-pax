@@ -1,0 +1,45 @@
+.paper-base {
+  position: relative;
+  /* background-color: #f8dd30; */
+  display: flex;
+  flex-direction: column;
+  /* justify-content: center; */
+  align-items: center;
+}
+.paper-body {
+  min-height: 89vh;
+}
+.head-bar {
+  margin-top: 100px;
+}
+.dropdown-menu-paper {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  margin-top: 50px;
+}
+.lottie-paper {
+  height: 500px;
+  width: 300px;
+  display: block;
+  flex-grow: 0;
+  flex-shrink: 1;
+  flex-basis: auto;
+  align-self: auto;
+  padding-left: 10px;
+  order: 1;
+}
+.notfound {
+  margin-top: 50px;
+}
+/* .search{
+    display: block;
+    flex-grow: 0;
+    flex-shrink: 1;
+    flex-basis: auto;
+    align-self: auto;
+    order: 0;
+  } */

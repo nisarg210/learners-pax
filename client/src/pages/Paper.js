@@ -10,8 +10,8 @@ import {
   Segment,
 } from "semantic-ui-react";
 import Docuement from "../components/Docuement";
-import "./Note.css";
-function Note() {
+import "./Paper.css";
+function Paper() {
   const container = useRef(null);
   useEffect(() => {
     Lottie.loadAnimation({
@@ -19,41 +19,42 @@ function Note() {
       renderer: "svg",
       loop: true,
       autoplay: true,
-      animationData: require("../static/notes.json"),
+      animationData: require("../static/search3.json"),
     });
   }, []);
   return (
-    <div className="note-body">
+    <div className="paper-body">
         <Segment placeholder>
-      <div className="note-base">
+      <div className="paper-base">
      
         <div className="head-bar">
           <Header as="h2" icon textAlign="center">
-            <Icon name="sticky note outline" circular />
-            <Header.Content>Notes</Header.Content>
+            <Icon name="sticky newspaper outline" circular />
+            <Header.Content>Paper</Header.Content>
           </Header>
         </div>
        
-        <div className="dropdown-menu-note">
-          <div className="search">
+        <div className="dropdown-menu-paper">
+          <div className="lottie-paper" ref={container} ></div>
+
+          <div className="search-note">
             <Header as="h3" textAlign="center">
             Select to get specific notes
             </Header>
             
             <Grid stackable centered columns={3} padded relaxed>
-              <Grid.Column textAlign="center">
+              <Grid.Row textAlign="center">
                 <Dropdown placeholder="Branch" selection />
-              </Grid.Column>
+              </Grid.Row>
 
-              <Grid.Column textAlign="center">
+              <Grid.Row textAlign="center">
                 <Dropdown placeholder="Semester" selection />
-              </Grid.Column>
-              <Grid.Column textAlign="center">
+              </Grid.Row>
+              <Grid.Row textAlign="center">
                 <Dropdown placeholder="Subject" selection />
-              </Grid.Column>
+              </Grid.Row>
             </Grid>
           </div>
-          <div className="lottie" ref={container} /*onMouseEnter={()=>Lottie.play()}  onMouseLeave={()=>Lottie.stop()}*/></div>
         </div>
        
       </div>
@@ -75,4 +76,4 @@ function Note() {
   );
 }
 
-export default Note;
+export default Paper;
