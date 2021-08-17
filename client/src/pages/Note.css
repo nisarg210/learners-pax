@@ -10,13 +10,35 @@
   min-height: 89vh;
 }
 .head-bar {
-  margin-top: 50px;
-}
-.dropdown-menu {
-  display: block;
   margin-top: 100px;
 }
-
+.dropdown-menu-note {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  margin-top: 50px;
+}
+.lottie{
+  height:400px;
+  width:400px;
+  display: block;
+  flex-grow: 0;
+  flex-shrink: 1;
+  flex-basis: auto;
+  align-self: auto;
+  order: 0;
+}
 .notfound {
   margin-top: 50px;
+}
+.search{
+  display: block;
+  flex-grow: 0;
+  flex-shrink: 1;
+  flex-basis: auto;
+  align-self: auto;
+  order: 0;
 }
