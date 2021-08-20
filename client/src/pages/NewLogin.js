@@ -6,7 +6,8 @@ import { useHistory } from "react-router-dom";
 import { useAppState } from "../state";
 import "./NewLogin.css";
 
-function NewLogin() {
+function NewLogin(props) {
+  const {handle} = props;
   const { setTeacher, getTeacher } = useAppState();
 
   const [name, setname] = useState("");
@@ -33,6 +34,7 @@ function NewLogin() {
       setpassword("");
       setemail("");
       setTeacher(res.data);
+      handle(true);
       history.push("/dashboard");
       console.log(getTeacher());
     } catch (err) {

@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import "./App.css";
 import {
   BrowserRouter as Router,
@@ -21,7 +21,7 @@ function App() {
   // let location = useLocation();
 const store =useRef({});
   const TEACHER = "TEACHER";
-  function setTeacher(teacher, tag = 1) {
+  function setTeacher(teacher) {
     localStorage.setItem(TEACHER, JSON.stringify(teacher));
   }
 
@@ -38,7 +38,11 @@ const store =useRef({});
     localStorage.removeItem(TEACHER);
   }
 
-  
+  const [login, setLogin] = useState(false)
+  const handleauth=(status)=>{
+    setLogin(status);
+    console.log(login);
+  }
   return (
     <>
       <Provider
@@ -51,13 +55,13 @@ const store =useRef({});
         }}
       >
         <Router>
-          <NewNav />
+          <NewNav auth={login} handle={handleauth}/>
 
           <div id="page-wrap">
             <AnimatePresence>
               <Switch>
                 <Route path="/" exact component={Home} />
-                <Route path="/login" exact component={NewLogin} />
+                <Route path="/login" exact render={()=><NewLogin handle={handleauth}/>} />
                 <Route path="/announcement" component={Announcement} />
                 <Route path="/dashboard" component={Dashboard} />
                 <Route path="/note" component={Note} />
