@@ -27,6 +27,7 @@ function Announcement() {
   const [semester, setSemester] = useState("");
   const [branchSelected, setBranchSelected] = useState("")
   const [semesterSelected, setSemesterSelected] = useState("");
+  const [tabledata, setTabledata] = useState([]);
   const sendAnnouncement = async () => {
     try {
       const response = await axios.post(
@@ -48,12 +49,10 @@ function Announcement() {
   };
 
   const searchAnno =async(e,{value})=>{
-    
-    const response =await axios.get("http://localhost:5000/api/announcement",{
-      branch:"branchSelected",
-      semester:value,
-    })
-
+    setTabledata([]);
+    const response =await axios.get(`http://localhost:5000/api/announcement/${branchSelected}/${value}`
+    )
+    setTabledata(response.data);
     console.log(response.data);
   }
   useEffect(() => {
@@ -278,8 +277,9 @@ function Announcement() {
         </Grid>
       </div>
       <div className="messages">
-        {semesterSelected}
-        {/* <AnnoMessage data={detail} /> */}
+        
+      {tabledata.length?(<AnnoMessage data={tabledata} />):("notfound")}
+    
         <br />
       </div>
     </div>

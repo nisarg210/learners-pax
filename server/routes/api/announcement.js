@@ -20,14 +20,27 @@ router.post("/", async (req, res) => {
   }
 });
 
-router.get("/", async (req, res) => {
-  const { branch, semester } = req.body;
+router.get("/:branch/:semester", async (req, res) => {
+  const { branch, semester } = req.params;
   try {
     console.log(branch);
-    res.send({
-      branch,
-      semester,
+    const announcements = await Announcement.find({
+      branch: branch,
+      semester: semester,
     });
+    if (announcements.length===0) {
+      res.status(200).json({ error: [{ msg: "NOt FOund" }] });
+    }
+    const filter =announcements.map((anno)=>({
+      name:anno.teacher,
+      subject:anno.subject,
+      title:anno.title,
+      date:anno.date,
+      description:anno.description
+    }))
+    res.send(
+     filter
+    );
   } catch (error) {
     console.error(error);
   }
