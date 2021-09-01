@@ -1,15 +1,64 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
+  Button,
+  Checkbox,
   Container,
   Divider,
   Dropdown,
+  Form,
   Grid,
   Header,
   Icon,
+  Image,
+  Message,
+  Modal,
 } from "semantic-ui-react";
 import AnnoMessage from "../components/AnnoMessage";
 import "./Announcement.css";
+import axios from "axios";
+
 function Announcement() {
+  const [formSuccess, setformSuccess] = useState(false);
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [open, setOpen] = useState(false);
+  const [branch, setBranch] = useState("");
+  const [subject, setSubject] = useState("");
+  const [semester, setSemester] = useState("");
+  const [branchSelected, setBranchSelected] = useState("")
+  const [semesterSelected, setSemesterSelected] = useState("");
+  const sendAnnouncement = async () => {
+    try {
+      const response = await axios.post(
+        "http://localhost:5000/api/announcement",
+        {
+          title: title,
+          description: description,
+          subject: subject,
+          branch: branch,
+          semester: semester,
+          teacher: "nisarg",
+        }
+      );
+      console.log(response);
+      setformSuccess(true);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const searchAnno =async(e,{value})=>{
+    
+    const response =await axios.get("http://localhost:5000/api/announcement",{
+      branch:"branchSelected",
+      semester:value,
+    })
+
+    console.log(response.data);
+  }
+  useEffect(() => {
+    console.log("sad");
+  }, [formSuccess]);
   const detail = [
     {
       name: "teacher",
@@ -53,42 +102,70 @@ function Announcement() {
     },
   ];
 
-  const friendOptions = [
+  const branchDrop = [
     {
-      key: "Jenny Hess",
-      text: "Jenny Hess",
-      value: "Jenny Hess",
-      image: { avatar: true, src: "/images/avatar/small/jenny.jpg" },
+      text: "CE",
+      value: "CE",
     },
     {
-      key: "Elliot Fu",
-      text: "Elliot Fu",
-      value: "Elliot Fu",
-      image: { avatar: true, src: "/images/avatar/small/elliot.jpg" },
+      text: "IT",
+      value: "IT",
+    },
+
+    {
+      text: "EC",
+      value: "EC",
+    },
+
+    {
+      text: "MH",
+      value: "MH",
+    },
+
+    {
+      text: "CH",
+      value: "CH",
     },
     {
-      key: "Stevie Feliciano",
-      text: "Stevie Feliciano",
-      value: "Stevie Feliciano",
-      image: { avatar: true, src: "/images/avatar/small/stevie.jpg" },
+      text: "CL",
+      value: "CL",
+    },
+  ];
+  const semesterDrop = [
+    {
+      text: "1",
+      value: "1",
     },
     {
-      key: "Christian",
-      text: "Christian",
-      value: "Christian",
-      image: { avatar: true, src: "/images/avatar/small/christian.jpg" },
+      text: "2",
+      value: "2",
+    },
+
+    {
+      text: "3",
+      value: "3",
+    },
+
+    {
+      text: "4",
+      value: "4",
+    },
+
+    {
+      text: "5",
+      value: "5",
     },
     {
-      key: "Matt",
-      text: "Matt",
-      value: "Matt",
-      image: { avatar: true, src: "/images/avatar/small/matt.jpg" },
+      text: "6",
+      value: "6",
     },
     {
-      key: "Justen Kitsune",
-      text: "Justen Kitsune",
-      value: "Justen Kitsune",
-      image: { avatar: true, src: "/images/avatar/small/justen.jpg" },
+      text: "7",
+      value: "7",
+    },
+    {
+      text: "8",
+      value: "8",
     },
   ];
 
@@ -105,27 +182,104 @@ function Announcement() {
           <Header.Content>Announcements</Header.Content>
         </Header>
       </div>
+      <div className="upload_announcement">
+        <Modal
+          closeIcon
+          onClose={() => setOpen(false)}
+          onOpen={() => setOpen(true)}
+          open={open}
+          trigger={<Button>Show Modal</Button>}
+        >
+          <Modal.Header>Upload a Announcement</Modal.Header>
+          <Modal.Content>
+            <Modal.Description>
+              <Form success={formSuccess}>
+                <Form.Field>
+                  <label>Title</label>
+                  <input
+                    name="title"
+                    value={title}
+                    onChange={(e) => setTitle(e.target.value)}
+                    placeholder="First Name"
+                  />
+                </Form.Field>
+                <Form.Field>
+                  <label>Semester</label>
+                  <input
+                    name="semester"
+                    value={semester}
+                    onChange={(e) => setSemester(e.target.value)}
+                    placeholder="semester"
+                  />
+                </Form.Field>
+                <Form.Field>
+                  <label>Branch</label>
+                  <input
+                    name="branch"
+                    value={branch}
+                    onChange={(e) => setBranch(e.target.value)}
+                    placeholder="Branch"
+                  />
+                </Form.Field>
+                <Form.Field>
+                  <label>Subject</label>
+                  <input
+                    name="subject"
+                    value={subject}
+                    onChange={(e) => setSubject(e.target.value)}
+                    placeholder="Subject"
+                  />
+                </Form.Field>
+                <Form.Field>
+                  <Form.TextArea
+                    name="description"
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
+                    label="Description"
+                    placeholder="Tell us more about you..."
+                  />
+                </Form.Field>
+                <Message
+                  success
+                  header="Announcement added..."
+                  content="Now it is live............"
+                />
+
+                <Button onClick={sendAnnouncement} type="button">
+                  Submit
+                </Button>
+              </Form>
+            </Modal.Description>
+          </Modal.Content>
+          <Modal.Actions>
+            <Button
+              content="Close"
+              labelPosition="right"
+              icon="close"
+              onClick={() => setOpen(false)}
+              negative
+            />
+          </Modal.Actions>
+        </Modal>
+      </div>
       <div className="dropdown-menu">
         <Divider horizontal>Select to get updates</Divider>
-        <Grid stackable centered columns={3} padded relaxed>
+        <Grid stackable centered columns={2} padded relaxed>
           <Grid.Column textAlign="center">
-            <Dropdown placeholder="Branch" selection options={friendOptions} />
+            <Dropdown value={branchSelected} onChange={(e,{value})=>{setBranchSelected(value)}} placeholder="Branch" selection options={branchDrop} />
           </Grid.Column>
-
+          {/* (e,{value})=>{setSemesterSelected(value)} */}
           <Grid.Column textAlign="center">
-            <Dropdown
-              placeholder="Semester"
-              selection
-              options={friendOptions}
-            />
+            <Dropdown  onChange={searchAnno} placeholder="Semester" selection options={semesterDrop} />
           </Grid.Column>
-          <Grid.Column textAlign="center">
-            <Dropdown placeholder="Subject" selection options={friendOptions} />
-          </Grid.Column>
+          {/* <Grid.Column textAlign="center">
+            <Dropdown placeholder="Subject" selection options={} />
+          </Grid.Column> */}
         </Grid>
       </div>
       <div className="messages">
-        <AnnoMessage data={detail} />
+        {semesterSelected}
+        {/* <AnnoMessage data={detail} /> */}
         <br />
       </div>
     </div>

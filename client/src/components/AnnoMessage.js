@@ -41,7 +41,7 @@ function AnnoMessage(props) {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [open, setOpen] = useState(false);
-  const [title,setTitle] =useState('');
+  const [title, setTitle] = useState("");
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -55,17 +55,30 @@ function AnnoMessage(props) {
     message = data
       .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
       .map((message) => (
-        <TableRow hover key={message.name} onClick={() => {setOpen(true); setTitle(message.title)}}>
+        <TableRow
+          hover
+          key={message.name}
+          onClick={() => {
+            setOpen(true);
+            setTitle(message.title);
+          }}
+        >
           <TableCell>
             <Typography className={classes.name}>{message.title}</Typography>
           </TableCell>
           <TableCell>
+            <Typography className={classes.name}>{message.title}</Typography>
+          </TableCell>
+          <TableCell>
+            <Typography className={classes.name}>{message.title}</Typography>
+          </TableCell>
+          {/* <TableCell>
             <Grid container>
               <Grid item>
                 <Typography className={classes.name}>{message.name}</Typography>
               </Grid>
             </Grid>
-          </TableCell>
+          </TableCell> */}
           <TableCell className={classes.name}>{message.date}</TableCell>
         </TableRow>
       ));
@@ -90,6 +103,7 @@ function AnnoMessage(props) {
           <TableHead>
             <TableRow hover>
               <TableCell className={classes.tableHeaderCell}>Title</TableCell>
+              <TableCell className={classes.tableHeaderCell}>Subject</TableCell>
               <TableCell className={classes.tableHeaderCell}>Faculty</TableCell>
               <TableCell className={classes.tableHeaderCell}>Date</TableCell>
             </TableRow>
