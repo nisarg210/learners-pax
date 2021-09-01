@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   Button,
   Checkbox,
@@ -16,6 +16,8 @@ import {
 import AnnoMessage from "../components/AnnoMessage";
 import "./Announcement.css";
 import axios from "axios";
+import { useAppState } from "../state";
+import Lottie from "lottie-web";
 
 function Announcement() {
   const [formSuccess, setformSuccess] = useState(false);
@@ -25,9 +27,12 @@ function Announcement() {
   const [branch, setBranch] = useState("");
   const [subject, setSubject] = useState("");
   const [semester, setSemester] = useState("");
-  const [branchSelected, setBranchSelected] = useState("")
+  const [branchSelected, setBranchSelected] = useState("");
   const [semesterSelected, setSemesterSelected] = useState("");
   const [tabledata, setTabledata] = useState([]);
+  const { setTeacher, getTeacher, isAuthenticated } = useAppState();
+  const [errors, seterrors] = useState(false);
+  const container = useRef(null);
   const sendAnnouncement = async () => {
     try {
       const response = await axios.post(
@@ -48,59 +53,34 @@ function Announcement() {
     }
   };
 
-  const searchAnno =async(e,{value})=>{
-    setTabledata([]);
-    const response =await axios.get(`http://localhost:5000/api/announcement/${branchSelected}/${value}`
-    )
-    setTabledata(response.data);
-    console.log(response.data);
-  }
+  useEffect(() => {
+    
+    Lottie.loadAnimation({
+      container: container.current,
+      renderer: "svg",
+      loop: true,
+      autoplay: true,
+      animationData: require("../static/error.json"),
+    });
+  }, [errors])
+  const searchAnno = async (e, { value }) => {
+    try {
+      setTabledata([]);
+      const response = await axios.get(
+        `http://localhost:5000/api/announcement/${branchSelected}/${value}`
+      );
+      seterrors(false);
+      setTabledata(response.data);
+      console.log(response.data);
+    } catch (error) {
+      seterrors(true);
+      console.log(error);
+    }
+  };
   useEffect(() => {
     console.log("sad");
   }, [formSuccess]);
-  const detail = [
-    {
-      name: "teacher",
-      date: "September 14, 2013",
-      title: "time table update",
-    },
-    {
-      name: "teacher",
-      date: "September 14, 2013",
-      title: "time table update",
-    },
-    {
-      name: "teacher",
-      date: "September 14, 2013",
-      title: "time table update",
-    },
-    {
-      name: "teacher",
-      date: "September 14, 2013",
-      title: "time table update",
-    },
-    {
-      name: "teacher",
-      date: "September 14, 2013",
-      title: "time table update",
-    },
-    {
-      name: "teacher",
-      date: "September 14, 2013",
-      title: "time table update",
-    },
-    {
-      name: "teacher",
-      date: "September 14, 2013",
-      title: "time table update",
-    },
-    {
-      name: "teacher",
-      date: "September 14, 2013",
-      title: "time table update",
-    },
-  ];
-
+  
   const branchDrop = [
     {
       text: "CE",
@@ -187,7 +167,7 @@ function Announcement() {
           onClose={() => setOpen(false)}
           onOpen={() => setOpen(true)}
           open={open}
-          trigger={<Button>Show Modal</Button>}
+          trigger={isAuthenticated() ? <Button>Show Modal</Button> : ""}
         >
           <Modal.Header>Upload a Announcement</Modal.Header>
           <Modal.Content>
@@ -265,11 +245,24 @@ function Announcement() {
         <Divider horizontal>Select to get updates</Divider>
         <Grid stackable centered columns={2} padded relaxed>
           <Grid.Column textAlign="center">
-            <Dropdown value={branchSelected} onChange={(e,{value})=>{setBranchSelected(value)}} placeholder="Branch" selection options={branchDrop} />
+            <Dropdown
+              value={branchSelected}
+              onChange={(e, { value }) => {
+                setBranchSelected(value);
+              }}
+              placeholder="Branch"
+              selection
+              options={branchDrop}
+            />
           </Grid.Column>
           {/* (e,{value})=>{setSemesterSelected(value)} */}
           <Grid.Column textAlign="center">
-            <Dropdown  onChange={searchAnno} placeholder="Semester" selection options={semesterDrop} />
+            <Dropdown
+              onChange={searchAnno}
+              placeholder="Semester"
+              selection
+              options={semesterDrop}
+            />
           </Grid.Column>
           {/* <Grid.Column textAlign="center">
             <Dropdown placeholder="Subject" selection options={} />
@@ -277,9 +270,33 @@ function Announcement() {
         </Grid>
       </div>
       <div className="messages">
-        
-      {tabledata.length?(<AnnoMessage data={tabledata} />):("notfound")}
-    
+        {tabledata.length ? <AnnoMessage data={tabledata} /> : ""}
+        {errors ? (
+          <div className="errorParent">
+          <div className="error" ref={container}>
+          </div>
+          <div className="errorText">
+          <Header as='h2' color="red">
+            Error
+            </Header>
+          </div>
+          </div>
+        //   <Message
+        //   negative
+        //   icon='exclamation triangle'
+        //   header='No such Announcenment found'
+        //   content='For this category'
+        // />
+          // <Message icon="exclamation triangle" negative centered>
+          //   <Message.Header>
+          //    No such Announcenment found
+          //   </Message.Header>
+          //   <p>For this category</p>
+          // </Message>
+        ) : (
+          ""
+        )}
+
         <br />
       </div>
     </div>

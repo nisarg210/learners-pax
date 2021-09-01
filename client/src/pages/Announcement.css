@@ -18,3 +18,17 @@
 .messages {
   margin-top: 50px;
 }
+.error{
+  height: 150px;
+  width: 400px;
+  margin-left:-175px
+}
+.errorParent{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+.errorText{
+margin-left: -130px;
+}

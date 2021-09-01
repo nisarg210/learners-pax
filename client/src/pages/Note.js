@@ -1,5 +1,5 @@
 import Lottie from "lottie-web";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   Button,
   Divider,
@@ -7,12 +7,16 @@ import {
   Grid,
   Header,
   Icon,
+  Modal,
   Segment,
 } from "semantic-ui-react";
 import Docuement from "../components/Docuement";
+import { useAppState } from "../state";
 import "./Note.css";
 function Note() {
   const container = useRef(null);
+  const [open, setOpen] = useState(false);
+  const { setTeacher, getTeacher, isAuthenticated } = useAppState();
   useEffect(() => {
     Lottie.loadAnimation({
       container: container.current,
@@ -33,7 +37,33 @@ function Note() {
             <Header.Content>Notes</Header.Content>
           </Header>
         </div>
-       
+       <div className="noteUpload">
+       <Modal
+          closeIcon
+          onClose={() => setOpen(false)}
+          onOpen={() => setOpen(true)}
+          open={open}
+          trigger={isAuthenticated() ? <Button>Show Modal</Button> : ""}
+        >
+          <Modal.Header>Upload a Announcement</Modal.Header>
+          <Modal.Content>
+            <Modal.Description>
+             
+
+    
+            </Modal.Description>
+          </Modal.Content>
+          <Modal.Actions>
+            <Button
+              content="Close"
+              labelPosition="right"
+              icon="close"
+              onClick={() => setOpen(false)}
+              negative
+            />
+          </Modal.Actions>
+        </Modal>
+       </div>
         <div className="dropdown-menu-note">
           <div className="search">
             <Header as="h3" textAlign="center">
