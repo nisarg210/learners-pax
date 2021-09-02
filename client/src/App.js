@@ -67,6 +67,7 @@ const store =useRef({});
                 <Route path="/note" component={Note} />
                 <Route path="/book" component={Books} />
                 <Route path="/paper" component={Paper} />
+               
               </Switch>
             </AnimatePresence>
           </div>
