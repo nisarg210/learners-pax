@@ -29,7 +29,7 @@ router.get("/:branch/:semester", async (req, res) => {
       semester: semester,
     });
     if (announcements.length===0) {
-      res.status(200).json({ error: [{ msg: "NOt FOund" }] });
+      res.status(400).json({ error: [{ msg: "NOt FOund" }] });
     }
     const filter =announcements.map((anno)=>({
       name:anno.teacher,
