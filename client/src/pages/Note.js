@@ -17,6 +17,7 @@ import { useForm } from "react-hook-form";
 import Docuement from "../components/Docuement";
 import { useAppState } from "../state";
 import "./Note.css";
+import data from "../static/config.json";
 import axios from "axios";
 function Note() {
   const container = useRef(null);
@@ -54,6 +55,7 @@ function Note() {
     }
   };
   useEffect(() => {
+    console.log(data);
     console.log(getTeacher())
     Lottie.loadAnimation({
       container: container.current,
@@ -149,17 +151,15 @@ function Note() {
                 Select to get specific notes
               </Header>
 
-              <Grid stackable centered columns={3} padded relaxed>
+              <Grid stackable centered columns={2} padded relaxed>
                 <Grid.Column textAlign="center">
-                  <Dropdown placeholder="Branch" selection />
+                  <Dropdown placeholder="Branch" selection options={data.branch}/>
                 </Grid.Column>
 
                 <Grid.Column textAlign="center">
-                  <Dropdown placeholder="Semester" selection />
+                  <Dropdown placeholder="Semester" selection options={data.semester}/>
                 </Grid.Column>
-                <Grid.Column textAlign="center">
-                  <Dropdown placeholder="Subject" selection />
-                </Grid.Column>
+                
               </Grid>
             </div>
             <div

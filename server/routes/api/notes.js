@@ -6,6 +6,8 @@ const multer = require("multer");
 const upload = multer({ dest: "uploads/" });
 const fs = require("fs");
 const google_upload = require("../../gapi/drive");
+
+
 router.post("/upload", upload.single("file"), async function (req, res) {
   try {
     const file = {
@@ -36,4 +38,12 @@ router.post("/upload", upload.single("file"), async function (req, res) {
     res.send(error);
   }
 });
+
+router.get("/:category/:branch/:semester",async function(req,res){
+try {
+    
+} catch (error) {
+    console.log(error);
+}
+})
 module.exports = router;
