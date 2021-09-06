@@ -27,14 +27,17 @@ function Note() {
   const [formSuccess, setformSuccess] = useState(false);
   const { setTeacher, getTeacher, isAuthenticated } = useAppState();
   const { register, handleSubmit } = useForm();
-
+  const note="note";
   const submit = async (data) => {
     try {
       let formdata = new FormData();
+      const teacher=getTeacher()
+      formdata.append("teachername", teacher.teacher.name);
       formdata.append("file", data.file[0]);
       formdata.append("semester", data.semester);
       formdata.append("subject", data.subject);
       formdata.append("branch", data.branch);
+      formdata.append("category", note);
       formdata.append("name", data.file[0].name);
       const response = await axios.post(
         "http://localhost:5000/api/note/upload",
@@ -51,6 +54,7 @@ function Note() {
     }
   };
   useEffect(() => {
+    console.log(getTeacher())
     Lottie.loadAnimation({
       container: container.current,
       renderer: "svg",
@@ -179,6 +183,7 @@ function Note() {
       </div>
       <div className="notefound">
         <Docuement />
+        {}
       </div>
     </div>
   );

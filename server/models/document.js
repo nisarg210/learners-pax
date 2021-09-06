@@ -9,7 +9,7 @@ const documentSchema = new Schema({
     type: String,
     required: true,
   },
-  id: {
+  docid: {
     type: String,
     required: true,
   },
