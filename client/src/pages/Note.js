@@ -17,7 +17,7 @@ import { useForm } from "react-hook-form";
 import Docuement from "../components/Docuement";
 import { useAppState } from "../state";
 import "./Note.css";
-import data from "../static/config.json";
+import configdata from "../static/config.json";
 import axios from "axios";
 function Note() {
   const container = useRef(null);
@@ -28,11 +28,14 @@ function Note() {
   const [formSuccess, setformSuccess] = useState(false);
   const { setTeacher, getTeacher, isAuthenticated } = useAppState();
   const { register, handleSubmit } = useForm();
-  const note="note";
+  const [documentData, setdocumentData] = useState([]);
+  const [error, setError] = useState(false);
+  const [branchSelected, setBranchSelected] = useState("");
+  const note = "note";
   const submit = async (data) => {
     try {
       let formdata = new FormData();
-      const teacher=getTeacher()
+      const teacher = getTeacher();
       formdata.append("teachername", teacher.teacher.name);
       formdata.append("file", data.file[0]);
       formdata.append("semester", data.semester);
@@ -54,9 +57,23 @@ function Note() {
       console.error(error);
     }
   };
+
+  const findNote = async (e, { value }) => {
+    try {
+      setdocumentData([]);
+      const paperReceived = await axios.get(
+        `http://localhost:5000/api/note/${note}/${branchSelected}/${value}`
+      );
+      setdocumentData(paperReceived.data);
+      setError(false)
+      console.log(paperReceived.data);
+    } catch (error) {
+      setError(true);
+      console.log(error);
+    }
+  };
   useEffect(() => {
-    console.log(data);
-    console.log(getTeacher())
+    console.log(getTeacher());
     Lottie.loadAnimation({
       container: container.current,
       renderer: "svg",
@@ -145,25 +162,37 @@ function Note() {
               </Modal.Actions>
             </Modal>
           </div>
-          <div className="dropdown-menu-note">
-            <div className="search">
+          <div className="dropdown-menu-paper">
+            <div className="search-note">
               <Header as="h3" textAlign="center">
                 Select to get specific notes
               </Header>
 
               <Grid stackable centered columns={2} padded relaxed>
                 <Grid.Column textAlign="center">
-                  <Dropdown placeholder="Branch" selection options={data.branch}/>
+                  <Dropdown
+                    value={branchSelected}
+                    onChange={(e, { value }) => {
+                      setBranchSelected(value);
+                    }}
+                    placeholder="Branch"
+                    selection
+                    options={configdata.branch}
+                  />
                 </Grid.Column>
 
                 <Grid.Column textAlign="center">
-                  <Dropdown placeholder="Semester" selection options={data.semester}/>
+                  <Dropdown
+                  onChange={findNote}
+                    placeholder="Semester"
+                    selection
+                    options={configdata.semester}
+                  />
                 </Grid.Column>
-                
               </Grid>
             </div>
             <div
-              className="lottie"
+              className="lottie-paper"
               ref={
                 container
               } /*onMouseEnter={()=>Lottie.play()}  onMouseLeave={()=>Lottie.stop()}*/
@@ -172,19 +201,23 @@ function Note() {
         </div>
       </Segment>
 
-      <div className="notfound">
-        <Segment placeholder>
-          <Header icon>
-            <Icon name="pdf file outline" />
-            No documents are listed for this customer.
-          </Header>
-          <Button primary>Add Document</Button>
-        </Segment>
-      </div>
-      <div className="notefound">
-        <Docuement />
-        {}
-      </div>
+      {documentData.length ? (
+        <div className="notefound">
+          <Docuement data={documentData} />
+        </div>
+      ) : (
+        ""
+      )}
+      {error && (
+        <div className="notfound">
+          <Segment placeholder>
+            <Header icon>
+              <Icon name="pdf file outline" />
+              No documents are listed for this selection.
+            </Header>
+          </Segment>
+        </div>
+      )}
     </div>
   );
 }
