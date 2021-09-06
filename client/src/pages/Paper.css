@@ -43,3 +43,26 @@
     align-self: auto;
     order: 0;
   } */
+
+  @media (max-width: 991px) {
+    .dropdown-menu-paper {
+      display: flex;
+      flex-direction: column;
+      flex-wrap: nowrap;
+      justify-content: center;
+      align-items: center;
+      align-content: center;
+    }
+    .lottie-paper {
+      height: 150px;
+      width: 300px;
+      display: block;
+      flex-grow: 0;
+      flex-shrink: 1;
+      flex-basis: auto;
+      align-self: auto;
+      padding-left: 10px;
+      order: 1;
+    }
+
+  }

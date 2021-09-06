@@ -32,7 +32,7 @@ function Tiles(props) {
                   <Card.Header as="h2">{title}</Card.Header>
 
                   <Card.Description>
-                    See all new updates given by teacher.
+                    See all new updates given by teacher.ndslnlnlvksdvlksdvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
                   </Card.Description>
                 </center>
               </Card.Content>

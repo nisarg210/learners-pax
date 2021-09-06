@@ -1,70 +1,110 @@
 import React, { useState } from "react";
-import { Button, Card, Image, Label, Placeholder, Segment } from "semantic-ui-react";
+import {
+  Button,
+  Card,
+  Icon,
+  Image,
+  Label,
+  Placeholder,
+  Segment,
+} from "semantic-ui-react";
 import "./Docuement.css";
-const cards = [
-  {
-    avatar: "../static/pdf.png",
-    date: "Joined in 2013",
-    header: "Helen",
-    description: "Primary Contact",
-  },
-  {
-    avatar: "/images/avatar/large/matthew.png",
-    date: "Joined in 2013",
-    header: "Matthew",
-    description: "Primary Contact",
-  },
-  {
-    avatar: "/images/avatar/large/molly.png",
-    date: "Joined in 2013",
-    header: "Molly",
-    description: "Primary Contact",
-  },
-];
+import configdata from "../static/config.json";
+// const cards = [
+//   {
+//     avatar: "../static/pdf.png",
+//     date: "Joined in 2013",
+//     header: "Helen",
+//     description: "Primary Contact",
+//   },
+//   {
+//     avatar: "/images/avatar/large/matthew.png",
+//     date: "Joined in 2013",
+//     header: "Matthew",
+//     description: "Primary Contact",
+//   },
+//   {
+//     avatar: "/images/avatar/large/molly.png",
+//     date: "Joined in 2013",
+//     header: "Molly",
+//     description: "Primary Contact",
+//   },
+// ];
 
-function Docuement() {
+function Docuement(props) {
+  const { data } = props;
   const [loading, setloading] = useState(false);
 
   return (
     <div className="notefound">
-      <Card.Group doubling centered itemsPerRow={4} stackable>
-        {cards.map((card) => (
-            
-          <Card key={card.header}>
-            <Label as='a' color="black" corner icon="file pdf outline">
-             
-            </Label>
-            {loading ? (
-              <Placeholder>
-                <Placeholder.Image square />
-              </Placeholder>
-            ) : (
-                <Image src="./zip.jpg" />
-            )}
+      <Card.Group doubling centered itemsPerRow={3} stackable>
+        {data &&
+          data.map((card) => {
+            const orgname = card.name;
+            const orgdate=card.date;
+            const infodate=orgdate.split("T");
+            const date= infodate[0];
+            const info = orgname.split(".");
+            const name = info[0];
+            const ext = info[1];
+            const url = configdata.url.concat(card.docid);
+            let iconName;
+            let color;
+            console.log(name, ext);
+            switch (ext) {
+              case "pdf":
+                color = "pink";
+                iconName = "file pdf outline";
+                break;
+              case "docx":
+                color = "teal";
+                iconName = "file word outline";
+                break;
+              case "zip":
+                color = "brown";
+                iconName = "file archive outline";
+                break;
+              default:
+                iconName = "file outline";
+                break;
+            }
+            return (
+              <Card
+                link
+                raised
+                centered
+                fluid
+                raised
+                className="mycard"
+                onClick={() => {
+                  window.open(url, "_blank").focus();
+                }}
+                key={card.name}
+              >
+                {loading ? (
+                  <Placeholder>
+                    <Placeholder.Image square />
+                  </Placeholder>
+                ) : (
+                  ""
+                )}
 
-            <Card.Content>
-              {loading ? (
-                <Placeholder>
-                  <Placeholder.Header>
-                    <Placeholder.Line length="very short" />
-                    <Placeholder.Line length="medium" />
-                  </Placeholder.Header>
-                  <Placeholder.Paragraph>
-                    <Placeholder.Line length="short" />
-                  </Placeholder.Paragraph>
-                </Placeholder>
-              ) : (
-                <>
-                <Image src="./zip.jpg" />
-                  <Card.Header>{card.header}</Card.Header>
-                  <Card.Meta>{card.date}</Card.Meta>
-                  <Card.Description>{card.description}</Card.Description>
-                </>
-              )}
-            </Card.Content>
-          </Card>
-         
-        ))}
+                <Card.Content>
+                  <center>
+                    <Icon
+                      color={color}
+                      className="icon-display"
+                      name={iconName}
+                      size="massive"
+                    />
+                    <Card.Header as="h3">{name}</Card.Header>
+                    <Card.Meta>{date}</Card.Meta>
+                    <Card.Description>{card.subject}</Card.Description>
+                  </center>
+                </Card.Content>
+              </Card>
+            );
+          })}
       </Card.Group>
     </div>
   );

@@ -1,3 +1,12 @@
 .notefound {
     margin: 50px 50px;
    }
+   
+ .mycard{
+border-radius: 3.28px !important;
+   }
+   .ui.card, .ui.cards>.card{
+    border-radius: 3.28px !important;
+    word-wrap: break-word;
+   }
+   

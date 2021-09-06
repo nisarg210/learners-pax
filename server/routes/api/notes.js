@@ -41,7 +41,22 @@ router.post("/upload", upload.single("file"), async function (req, res) {
 
 router.get("/:category/:branch/:semester",async function(req,res){
 try {
-    
+    const { branch, semester ,category} = req.params;
+    const documentReceived =await document.find({
+        branch: branch,
+      semester: semester,
+      category: category,
+    })
+    if (documentReceived.length===0) {
+        res.status(404).json({  msg: "Not FOund" });
+      }
+      const filter = documentReceived.map((document)=>({
+          docid:document.docid,
+          name :document.name,
+          subject:document.subject,
+          date: document.date,
+      }))
+      res.send(filter);
 } catch (error) {
     console.log(error);
 }

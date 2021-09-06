@@ -32,6 +32,9 @@ function Paper() {
   const { setTeacher, getTeacher, isAuthenticated } = useAppState();
   const { register, handleSubmit } = useForm();
   const [loading, setLoading] = useState(false);
+  const [branchSelected, setBranchSelected] = useState("");
+  const [documentData, setdocumentData] = useState([]);
+  const [error, setError] = useState(false);
   const paper = "paper";
   const progress = (progressEvent) => {};
   const submit = async (data) => {
@@ -74,6 +77,21 @@ function Paper() {
       console.error(error);
     }
   };
+
+  const findPaper = async (e, { value }) => {
+    try {
+      setdocumentData([]);
+      const paperReceived = await axios.get(
+        `http://localhost:5000/api/note/${paper}/${branchSelected}/${value}`
+      );
+      setdocumentData(paperReceived.data);
+      setError(false)
+      console.log(paperReceived.data);
+    } catch (error) {
+      setError(true);
+      console.log(error);
+    }
+  };
   useEffect(() => {}, [loading]);
   useEffect(() => {
     Lottie.loadAnimation({
@@ -85,9 +103,7 @@ function Paper() {
     });
   }, []);
   return (
-    
     <div className="paper-body">
-      
       <Segment placeholder>
         <div className="paper-base">
           <div className="head-bar">
@@ -103,73 +119,72 @@ function Paper() {
               open={open}
               trigger={isAuthenticated() ? <Button>Show Modal</Button> : ""}
             >
-            
-            <Dimmer active={false}>
-                  <Loader />
-      </Dimmer>
-                <Modal.Header>Upload a Announcement</Modal.Header>
-                <Modal.Content>
-                  <Modal.Description>
-                    <Form success={formSuccess} onSubmit={handleSubmit(submit)}>
-                      <Form.Field>
-                        <label>Semester</label>
-                        <input
-                          {...register("semester", { required: true })}
-                          name="semester"
-                          value={semester}
-                          onChange={(e) => setSemester(e.target.value)}
-                          placeholder="semester"
-                        />
-                      </Form.Field>
-                      <Form.Field>
-                        <label>Branch</label>
-                        <input
-                          {...register("branch", { required: true })}
-                          name="branch"
-                          value={branch}
-                          onChange={(e) => setBranch(e.target.value)}
-                          placeholder="Branch"
-                        />
-                      </Form.Field>
-                      <Form.Field>
-                        <label>Subject</label>
-                        <input
-                          {...register("subject", { required: true })}
-                          name="subject"
-                          value={subject}
-                          onChange={(e) => setSubject(e.target.value)}
-                          placeholder="Subject"
-                        />
-                      </Form.Field>
-                      <Form.Field>
-                        <input
-                          {...register("file", { required: true })}
-                          type="file"
-                          placeholder="Search..."
-                        />
-                      </Form.Field>
-                      <Progress percent={percent} progress>
-                        The progress was successful
-                      </Progress>
-                      <Message
-                        success
-                        header="Announcement added..."
-                        content="Now it is live............"
+              <Dimmer active={false}>
+                <Loader />
+              </Dimmer>
+              <Modal.Header>Upload a Announcement</Modal.Header>
+              <Modal.Content>
+                <Modal.Description>
+                  <Form success={formSuccess} onSubmit={handleSubmit(submit)}>
+                    <Form.Field>
+                      <label>Semester</label>
+                      <input
+                        {...register("semester", { required: true })}
+                        name="semester"
+                        value={semester}
+                        onChange={(e) => setSemester(e.target.value)}
+                        placeholder="semester"
                       />
+                    </Form.Field>
+                    <Form.Field>
+                      <label>Branch</label>
+                      <input
+                        {...register("branch", { required: true })}
+                        name="branch"
+                        value={branch}
+                        onChange={(e) => setBranch(e.target.value)}
+                        placeholder="Branch"
+                      />
+                    </Form.Field>
+                    <Form.Field>
+                      <label>Subject</label>
+                      <input
+                        {...register("subject", { required: true })}
+                        name="subject"
+                        value={subject}
+                        onChange={(e) => setSubject(e.target.value)}
+                        placeholder="Subject"
+                      />
+                    </Form.Field>
+                    <Form.Field>
+                      <input
+                        {...register("file", { required: true })}
+                        type="file"
+                        placeholder="Search..."
+                      />
+                    </Form.Field>
+                    <Progress percent={percent} progress>
+                      The progress was successful
+                    </Progress>
+                    <Message
+                      success
+                      header="Announcement added..."
+                      content="Now it is live............"
+                    />
 
-                      <Button type="submit">Submit</Button>
-                    </Form>
-                  </Modal.Description>
-                </Modal.Content>
-                <Modal.Actions>
-                  <Button
-                    content="Close"
-                    labelPosition="right"
-                    icon="close"
-                    onClick={() => setOpen(false)}
-                    negative
-                  />
-                </Modal.Actions>
+                    <Button type="submit">Submit</Button>
+                  </Form>
+                </Modal.Description>
+              </Modal.Content>
+              <Modal.Actions>
+                <Button
+                  content="Close"
+                  labelPosition="right"
+                  icon="close"
+                  onClick={() => setOpen(false)}
+                  negative
+                />
+              </Modal.Actions>
             </Modal>
           </div>
 
@@ -184,6 +199,10 @@ function Paper() {
               <Grid stackable centered columns={2} padded relaxed>
                 <Grid.Column textAlign="center">
                   <Dropdown
+                    value={branchSelected}
+                    onChange={(e, { value }) => {
+                      setBranchSelected(value);
+                    }}
                     placeholder="Branch"
                     selection
                     options={configdata.branch}
@@ -192,6 +211,7 @@ function Paper() {
 
                 <Grid.Column textAlign="center">
                   <Dropdown
+                    onChange={findPaper}
                     placeholder="Semester"
                     selection
                     options={configdata.semester}
@@ -202,19 +222,28 @@ function Paper() {
           </div>
         </div>
       </Segment>
-
-      <div className="notfound">
-        <Segment placeholder>
-          <Header icon>
-            <Icon name="pdf file outline" />
-            No documents are listed for this customer.
-          </Header>
-          <Button primary>Add Document</Button>
-        </Segment>
-      </div>
-      <div className="notefound">
-        <Docuement />
-      </div>
+      {documentData.length ? (
+        <div className="notefound">
+          <Docuement data={documentData} />
+        </div>
+      ) : (
+        ""
+      )}
+      {error && (
+        <div className="notfound">
+          <Segment placeholder>
+            <Header icon>
+              <Icon name="pdf file outline" />
+              No documents are listed for this selection.
+            </Header>
+          </Segment>
+        </div>
+      )}
+      {/* {documentData.length() ? (
+        <div className="notefound">
+          <Docuement data={documentData} />
+        </div>
+      ):("")} */}
     </div>
   );
 }
