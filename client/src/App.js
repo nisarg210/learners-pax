@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./App.css";
 import {
   BrowserRouter as Router,
@@ -39,6 +39,12 @@ const store =useRef({});
   }
 
   const [login, setLogin] = useState(false)
+
+  useEffect(() => {
+    if(getTeacher())
+    setLogin(true);
+
+  }, [])
   const handleauth=(status)=>{
     setLogin(status);
     console.log(login);

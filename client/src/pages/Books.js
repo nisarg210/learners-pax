@@ -16,6 +16,7 @@ import {
 } from "semantic-ui-react";
 import Docuement from "../components/Docuement";
 import { useAppState } from "../state";
+import configdata from "../static/config.json";
 import "./Books.css";
 function Books() {
   const container = useRef(null);
@@ -26,12 +27,15 @@ function Books() {
   const [formSuccess, setformSuccess] = useState(false);
   const { setTeacher, getTeacher, isAuthenticated } = useAppState();
   const { register, handleSubmit } = useForm();
+  const [branchSelected, setBranchSelected] = useState("");
+  const [documentData, setdocumentData] = useState([]);
+  const [error, setError] = useState(false);
   const book = "book";
 
   const submit = async (data) => {
     try {
       let formdata = new FormData();
-      const teacher=getTeacher()
+      const teacher = getTeacher();
       formdata.append("teachername", teacher.teacher.name);
       formdata.append("file", data.file[0]);
       formdata.append("semester", data.semester);
@@ -53,6 +57,20 @@ function Books() {
       console.error(error);
     }
   };
+  const findBook = async (e, { value }) => {
+    try {
+      setdocumentData([]);
+      const bookReceived = await axios.get(
+        `http://localhost:5000/api/note/${book}/${branchSelected}/${value}`
+      );
+      setdocumentData(bookReceived.data);
+      setError(false)
+      console.log(bookReceived.data);
+    } catch (error) {
+      setError(true);
+      console.log(error);
+    }
+  };
   useEffect(() => {
     Lottie.loadAnimation({
       container: container.current,
@@ -64,16 +82,15 @@ function Books() {
   }, []);
   return (
     <div className="book-body">
-        <Segment placeholder>
-      <div className="book-base">
-     
-        <div className="head-bar">
-          <Header as="h2" icon textAlign="center">
-            <Icon name="sticky book" circular />
-            <Header.Content>Books</Header.Content>
-          </Header>
-        </div>
-        <div className="paper_upload">
+      <Segment placeholder>
+        <div className="book-base">
+          <div className="head-bar">
+            <Header as="h2" icon textAlign="center">
+              <Icon name="sticky book" circular />
+              <Header.Content>Books</Header.Content>
+            </Header>
+          </div>
+          <div className="paper_upload">
             <Modal
               closeIcon
               onClose={() => setOpen(false)}
@@ -143,44 +160,63 @@ function Books() {
               </Modal.Actions>
             </Modal>
           </div>
-        <div className="dropdown-menu-book">
-          <div className="lottie" ref={container} ></div>
+          <div className="dropdown-menu-book">
+            <div className="lottie" ref={container}></div>
 
-          <div className="search-note">
-            <Header as="h3" textAlign="center">
-            Select to get specific notes
-            </Header>
-            
-            <Grid stackable centered columns={3} padded relaxed>
-              <Grid.Row textAlign="center">
-                <Dropdown placeholder="Branch" selection />
-              </Grid.Row>
+            <div className="search-note">
+              <Header as="h3" textAlign="center">
+                Select to get specific notes
+              </Header>
 
-              <Grid.Row textAlign="center">
-                <Dropdown placeholder="Semester" selection />
-              </Grid.Row>
-              <Grid.Row textAlign="center">
-                <Dropdown placeholder="Subject" selection />
-              </Grid.Row>
-            </Grid>
+              <Grid stackable centered columns={3} padded relaxed>
+                <Grid.Row textAlign="center">
+                  <Dropdown
+                  value={branchSelected}
+                  onChange={(e, { value }) => {
+                    setBranchSelected(value);
+                  }}
+                    placeholder="Branch"
+                    selection
+                    options={configdata.branch}
+                  />
+                </Grid.Row>
+
+                <Grid.Row textAlign="center">
+                  <Dropdown
+                   onChange={findBook}
+                    placeholder="Semester"
+                    selection
+                    options={configdata.semester}
+                  />
+                </Grid.Row>
+              </Grid>
+            </div>
           </div>
         </div>
-       
-      </div>
       </Segment>
-    
-      <div className="notfound">
-        <Segment placeholder>
-          <Header icon>
-            <Icon name="pdf file outline" />
-            No documents are listed for this customer.
-          </Header>
-          <Button primary>Add Document</Button>
-        </Segment>
-      </div>
-      <div className="notefound">
-        <Docuement />
-      </div>
+
+      {documentData.length ? (
+        <div className="notefound">
+          <Docuement data={documentData} />
+        </div>
+      ) : (
+        ""
+      )}
+      {error && (
+        <div className="notfound">
+          <Segment placeholder>
+            <Header icon>
+              <Icon name="pdf file outline" />
+              No documents are listed for this selection.
+            </Header>
+          </Segment>
+        </div>
+      )}
+      {/* {documentData.length() ? (
+        <div className="notefound">
+          <Docuement data={documentData} />
+        </div>
+      ):("")} */}
     </div>
   );
 }
