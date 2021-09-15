@@ -5,6 +5,7 @@ const app = express();
 const mongoose = require("mongoose");
 const cors = require('cors');
 const nodemailer= require("nodemailer");
+const hbs =require('nodemailer-express-handlebars')
 const connectDB = require("./config/db");
 app.use(cors());
 connectDB();
@@ -17,6 +18,10 @@ let transporter = nodemailer.createTransport({
         pass: process.env.PASSWORD
     }
 })
+transporter.use('compile',hbs({
+    viewEngine: 'express-handlebars',
+    viewPath: './'
+}));
 exports.transporter=transporter;
 
 app.use("/api/teacher", require("./routes/api/teacher"));

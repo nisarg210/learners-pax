@@ -44,7 +44,8 @@ router.post("/upload", upload.single("file"), async function (req, res) {
       from: "deathnote.yagami310@gmail.com",
       to:emailstring,
       subject:req.body.name,
-      text:"it is uploaded"
+      text:"it is uploaded",
+      template: 'main'
     };
     // console.log(mailOptions)
     const transporter =transport.transporter;
