@@ -7,8 +7,9 @@ const multer = require("multer");
 const upload = multer({ dest: "uploads/" });
 const fs = require("fs");
 const google_upload = require("../../gapi/drive");
-const getmailoption =require("../../mails/mailoption")
-const transport =require("../../server")
+const getmailoption = require("../../mails/mailoption");
+const transport = require("../../server");
+var handlebars = require("handlebars");
 router.post("/upload", upload.single("file"), async function (req, res) {
   try {
     // const file = {
@@ -38,30 +39,29 @@ router.post("/upload", upload.single("file"), async function (req, res) {
       semester: req.body.semester,
     });
     const emails = studentlist.map((student) => student.email);
-   const emailstring=emails.join([separator = ', '])
-    // console.log(emailstring);
+    const emailstring = emails.join([(separator = ", ")]);
+
     let mailOptions = {
       from: "deathnote.yagami310@gmail.com",
-      to:emailstring,
-      subject:req.body.name,
-      text:"it is uploaded",
-      template: 'main'
+      to: emailstring,
+      subject: `Prof. ${req.body.teachername} has uploaded ${req.body.name}.👀 😀`,
+      text: "it is uploaded",
+      template: "main",
     };
     // console.log(mailOptions)
-    const transporter =transport.transporter;
-    transporter.sendMail(mailOptions,function(err,data){
-      if(err){
-        console.log("Error occurs",err)
+    const transporter = transport.transporter;
+    transporter.sendMail(mailOptions, function (err, data) {
+      if (err) {
+        console.log("Error occurs", err);
+      } else {
+        console.log("Email sent");
       }
-      else{
-        console.log("Email sent")
-      }
-    })
+    });
     // console.log(transporter)
-    
+
     res.json({ msg: "success" });
   } catch (error) {
-    // fs.unlinkSync(req.file.path);
+    fs.unlinkSync(req.file.path);
     res.send(error);
   }
 });
