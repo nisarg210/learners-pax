@@ -14,7 +14,7 @@ function Tiles(props) {
               centered
               fluid
               raised
-              color="yellow"
+              color="#edc9af"
               name={addName}
               onClick={(event, data) => {
                 changeAddress(data.name);

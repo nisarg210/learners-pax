@@ -84,7 +84,7 @@ function Note() {
   }, []);
   return (
     <div className="note-body">
-      <Segment placeholder>
+ 
         <div className="note-base">
           <div className="head-bar">
             <Header as="h2" icon textAlign="center">
@@ -199,7 +199,7 @@ function Note() {
             ></div>
           </div>
         </div>
-      </Segment>
+   
 
       {documentData.length ? (
         <div className="notefound">

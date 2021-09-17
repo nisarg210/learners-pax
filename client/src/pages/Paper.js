@@ -104,7 +104,7 @@ function Paper() {
   }, []);
   return (
     <div className="paper-body">
-      <Segment placeholder>
+      
         <div className="paper-base">
           <div className="head-bar">
             <Header as="h2" icon textAlign="center">
@@ -221,7 +221,7 @@ function Paper() {
             </div>
           </div>
         </div>
-      </Segment>
+      
       {documentData.length ? (
         <div className="notefound">
           <Docuement data={documentData} />

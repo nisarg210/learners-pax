@@ -1,12 +1,12 @@
 .dashboard-section {
   position: relative;
-  min-height: 89vh;
+  min-height: 91.5vh;
   /* background-color: #f8dd30; */
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 20px;
-  background-color: #f9fafb;
+  background-color: #ddd;
 }
 
 .dashboard-container {
@@ -24,7 +24,11 @@
 .icon-display{
   vertical-align: middle;
 }
+i.yellow.icon {
+  color: #704241!important;
+}
 
+/* a0522d */
 .ui.card>.content,
 .ui.cards>.card>.content {
   color: black;

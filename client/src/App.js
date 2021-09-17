@@ -16,6 +16,7 @@ import Note from "./pages/Note";
 import Books from "./pages/Books";
 import Paper from "./pages/Paper";
 import { Provider } from "./state";
+import About from "./pages/About";
 
 function App() {
   // let location = useLocation();
@@ -73,6 +74,7 @@ const store =useRef({});
                 <Route path="/note" component={Note} />
                 <Route path="/book" component={Books} />
                 <Route path="/paper" component={Paper} />
+                <Route path="/about" component={About} />
                
               </Switch>
             </AnimatePresence>

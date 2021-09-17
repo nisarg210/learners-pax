@@ -82,7 +82,7 @@ function Books() {
   }, []);
   return (
     <div className="book-body">
-      <Segment placeholder>
+    
         <div className="book-base">
           <div className="head-bar">
             <Header as="h2" icon textAlign="center">
@@ -193,7 +193,7 @@ function Books() {
             </div>
           </div>
         </div>
-      </Segment>
+    
 
       {documentData.length ? (
         <div className="notefound">
