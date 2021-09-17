@@ -14,10 +14,10 @@ function Home() {
       renderer: "svg",
       loop: true,
       autoplay: true,
-      animationData: require("../static/loginl.json"),
+      animationData: require("../static/home.json"),
     });
   }, []);
-
+  // animationData: require("../static/loginl.json"),
   const pageVariants = {
     initial: {
       opacity: 0,
@@ -54,7 +54,7 @@ function Home() {
     >
       <div className="hero-section">
         <div className="hero-1" ref={container}></div>
-        <div className="hero-2">
+        {/* <div className="hero-2">
           <p>
             ddddddddddddddddddddddhuhsdvdvsvs dsdvdsvsdv vdsvdvsdvs vdsvdvsv
             <br />
@@ -72,7 +72,7 @@ function Home() {
             vsdvsdvsdv
             <br />
           </p>
-        </div>
+        </div> */}
       </div>
     </motion.div>
   );

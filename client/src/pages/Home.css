@@ -8,8 +8,8 @@
 }
 .hero-1 {
   margin: 50px 100px;
-  width: 600px;
-  height: 700px;
+  width: 100vw;
+  height: 100vh;
   display: block;
   flex-grow: 0;
   flex-shrink: 1;
