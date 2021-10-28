@@ -44,22 +44,6 @@ router.post(
       console.log(teacher);
       await teacher.save();
       res.json({ msg: "Saved" });
-      // const payload = {
-      //   user: {
-      //     id: user.id,
-      //   },
-      // };
-      // jwt.sign(
-      //   payload,
-      //   config.get("jwtToken"),
-      //   { expiresIn: 3600000 },
-      //   (err, token) => {
-      //     if (err) {
-      //       throw err;
-      //     }
-      //     res.json({ token });
-      //   }
-      // );
     } catch (err) {
       res.status(401).json(err);
     }

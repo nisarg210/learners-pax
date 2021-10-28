@@ -1,4 +1,4 @@
 {
-    "mongoURI":"mongodb+srv://nisarg_test:test_nisarg@devconnector.4skcb.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+    "mongoURI":"mongodb://nisarg_test:test_nisarg@devconnector-shard-00-00.4skcb.mongodb.net:27017,devconnector-shard-00-01.4skcb.mongodb.net:27017,devconnector-shard-00-02.4skcb.mongodb.net:27017/myFirstDatabase?ssl=true&replicaSet=atlas-1udf24-shard-0&authSource=admin&retryWrites=true&w=majority",
     "jwtToken":"scretkey"
 }

@@ -56,6 +56,7 @@ const [description, setDescription] = useState("");
       .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
       .map((message) => (
         <TableRow
+        className="rows"
           hover
           key={message.name}
           onClick={() => {
@@ -125,7 +126,7 @@ const [description, setDescription] = useState("");
           </TableFooter>
         </Table>
       </TableContainer>
-      <Modal size="large" open={open} onClose={() => setOpen(false)}>
+      <Modal closeIcon size="large" open={open} onClose={() => setOpen(false)}>
         <Modal.Header>{title}</Modal.Header>
         <Modal.Content>
           <p>

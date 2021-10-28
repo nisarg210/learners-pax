@@ -39,30 +39,7 @@ router.post("/upload", upload.single("file"), async function (req, res) {
     const emails = studentlist.map((student) => student.email);
     const emailstring = emails.join([(separator = ", ")]);
     //  ------------------EMAIL PART-----------------
-    sendmail(req.body.name, req.body.teachername);
-    // const pathname =path.join(__dirname,'../../emailtemplate/main.html')
-    // const source = fs.readFileSync(pathname, "utf-8");
-    // let template = handlebars.compile(source);
-    // const data={"tname": `${req.body.teachername}`}
-    // var result = template(data);
-    // let mailOptions = {
-    //   from: "Learner's Pax <deathnote.yagami310@gmail.com>",
-    //   to: "projectdev45@gmail.com",
-    //   subject: `Prof. ${req.body.teachername} has uploaded ${req.body.name}.👀 😀`,
-    //   text: "it is uploaded",
-    //   html:result
-    // };
-    // // console.log(mailOptions)
-    // const transporter = transport.transporter;
-    // transporter.sendMail(mailOptions, function (err, data) {
-    //   if (err) {
-    //     console.log("Error occurs", err);
-    //   } else {
-    //     console.log("Email sent");
-    //   }
-    // });
-    // console.log(transporter)
-
+    sendmail(req.body.name, req.body.teachername); 
     res.json({ msg: "success" });
   } catch (error) {
     console.log(error);

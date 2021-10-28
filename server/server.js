@@ -8,7 +8,8 @@ const nodemailer= require("nodemailer");
 const hbs =require('nodemailer-express-handlebars')
 const connectDB = require("./config/db");
 app.use(cors());
-connectDB();
+const ifer= connectDB();
+console.log(ifer)
 app.use(express.json({ extended: false }));
 
 let transporter = nodemailer.createTransport({
