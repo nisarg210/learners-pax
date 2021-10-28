@@ -2,6 +2,7 @@ import axios from "axios";
 import Lottie from "lottie-web";
 import React, { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 import {
   Button,
   Dimmer,
@@ -36,7 +37,7 @@ function Paper() {
   const [documentData, setdocumentData] = useState([]);
   const [error, setError] = useState(false);
   const paper = "paper";
-  const progress = (progressEvent) => {};
+
   const submit = async (data) => {
     try {
       setLoading(true);
@@ -49,29 +50,27 @@ function Paper() {
       formdata.append("branch", data.branch);
       formdata.append("category", paper);
       formdata.append("name", data.file[0].name);
-      const response = await axios.post(
-        "http://localhost:5000/api/note/upload",
-        formdata,
-        {
+      // const response = await axios.post(
+      //   "http://localhost:5000/api/note/upload",
+      //   formdata,
+      //   {
+      //     headers: {
+      //       "Content-Type": "multipart/form-data",
+      //     },
+      //   }
+      // );
+      const response = await toast.promise(
+        axios.post("http://localhost:5000/api/note/upload", formdata, {
           headers: {
             "Content-Type": "multipart/form-data",
           },
-          onUploadProgress: (progressEvent) => {
-            const { loaded, total } = progressEvent;
-            if (Math.floor((loaded * 100) / total) <= 90) {
-              setPercent(Math.floor((loaded * 100) / total));
-              console.log("UPLOAD __ PERCENT STATE ", percent);
-            }
-          },
-          onDownloadProgress: (progressEvent) => {
-            const { loaded, total } = progressEvent;
-
-            let accpercentage = Math.floor((loaded * 100) / total);
-            if (Math.floor((loaded * 100) / total) == 100) setLoading(false);
-          },
+        }),
+        {
+          pending: "Uploading.....",
+          success: "Uploaded 👌",
+          error: "Failed to upload try again. 🤯",
         }
       );
-
       console.log(response.data);
     } catch (error) {
       console.error(error);
@@ -85,7 +84,7 @@ function Paper() {
         `http://localhost:5000/api/note/${paper}/${branchSelected}/${value}`
       );
       setdocumentData(paperReceived.data);
-      setError(false)
+      setError(false);
       console.log(paperReceived.data);
     } catch (error) {
       setError(true);
@@ -104,124 +103,123 @@ function Paper() {
   }, []);
   return (
     <div className="paper-body">
-      
-        <div className="paper-base">
-          <div className="head-bar">
-            <Header as="h2" icon textAlign="center">
-              <Icon name="sticky newspaper outline" circular />
-              <Header.Content>Paper</Header.Content>
-            </Header>
-          </div>
-          <div className="paper_upload">
-            <Modal
-              onClose={() => setOpen(false)}
-              onOpen={() => setOpen(true)}
-              open={open}
-              trigger={isAuthenticated() ? <Button>Show Modal</Button> : ""}
-            >
-              <Dimmer active={false}>
-                <Loader />
-              </Dimmer>
-              <Modal.Header>Upload a Announcement</Modal.Header>
-              <Modal.Content>
-                <Modal.Description>
-                  <Form success={formSuccess} onSubmit={handleSubmit(submit)}>
-                    <Form.Field>
-                      <label>Semester</label>
-                      <input
-                        {...register("semester", { required: true })}
-                        name="semester"
-                        value={semester}
-                        onChange={(e) => setSemester(e.target.value)}
-                        placeholder="semester"
-                      />
-                    </Form.Field>
-                    <Form.Field>
-                      <label>Branch</label>
-                      <input
-                        {...register("branch", { required: true })}
-                        name="branch"
-                        value={branch}
-                        onChange={(e) => setBranch(e.target.value)}
-                        placeholder="Branch"
-                      />
-                    </Form.Field>
-                    <Form.Field>
-                      <label>Subject</label>
-                      <input
-                        {...register("subject", { required: true })}
-                        name="subject"
-                        value={subject}
-                        onChange={(e) => setSubject(e.target.value)}
-                        placeholder="Subject"
-                      />
-                    </Form.Field>
-                    <Form.Field>
-                      <input
-                        {...register("file", { required: true })}
-                        type="file"
-                        placeholder="Search..."
-                      />
-                    </Form.Field>
-                    <Progress percent={percent} progress>
-                      The progress was successful
-                    </Progress>
-                    <Message
-                      success
-                      header="Announcement added..."
-                      content="Now it is live............"
+      <div className="paper-base">
+        <div className="head-bar">
+          <Header as="h2" icon textAlign="center">
+            <Icon name="sticky newspaper outline" circular />
+            <Header.Content>Paper</Header.Content>
+          </Header>
+        </div>
+        <div className="paper_upload">
+          <Modal
+            onClose={() => setOpen(false)}
+            onOpen={() => setOpen(true)}
+            open={open}
+            trigger={isAuthenticated() ? <Button>Show Modal</Button> : ""}
+          >
+            <Dimmer active={false}>
+              <Loader />
+            </Dimmer>
+            <Modal.Header>Upload a Announcement</Modal.Header>
+            <Modal.Content>
+              <Modal.Description>
+                <Form success={formSuccess} onSubmit={handleSubmit(submit)}>
+                  <Form.Field>
+                    <label>Semester</label>
+                    <input
+                      {...register("semester", { required: true })}
+                      name="semester"
+                      value={semester}
+                      onChange={(e) => setSemester(e.target.value)}
+                      placeholder="semester"
                     />
+                  </Form.Field>
+                  <Form.Field>
+                    <label>Branch</label>
+                    <input
+                      {...register("branch", { required: true })}
+                      name="branch"
+                      value={branch}
+                      onChange={(e) => setBranch(e.target.value)}
+                      placeholder="Branch"
+                    />
+                  </Form.Field>
+                  <Form.Field>
+                    <label>Subject</label>
+                    <input
+                      {...register("subject", { required: true })}
+                      name="subject"
+                      value={subject}
+                      onChange={(e) => setSubject(e.target.value)}
+                      placeholder="Subject"
+                    />
+                  </Form.Field>
+                  <Form.Field>
+                    <input
+                      {...register("file", { required: true })}
+                      type="file"
+                      placeholder="Search..."
+                    />
+                  </Form.Field>
+                  <Progress percent={percent} progress>
+                    The progress was successful
+                  </Progress>
+                  <Message
+                    success
+                    header="Announcement added..."
+                    content="Now it is live............"
+                  />
 
-                    <Button type="submit">Submit</Button>
-                  </Form>
-                </Modal.Description>
-              </Modal.Content>
-              <Modal.Actions>
-                <Button
-                  content="Close"
-                  labelPosition="right"
-                  icon="close"
-                  onClick={() => setOpen(false)}
-                  negative
+                  <Button type="submit">Submit</Button>
+                </Form>
+              </Modal.Description>
+            </Modal.Content>
+            <Modal.Actions>
+              <Button
+                content="Close"
+                labelPosition="right"
+                icon="close"
+                onClick={() => setOpen(false)}
+                negative
+              />
+            </Modal.Actions>
+          </Modal>
+        </div>
+
+        <div className="dropdown-menu-paper">
+          <div className="lottie-paper" ref={container}></div>
+
+          <div className="search-note">
+            <Header as="h3" textAlign="center">
+              Select to get specific notes
+            </Header>
+
+            <Grid stackable centered columns={2} padded relaxed>
+              <Grid.Column textAlign="center">
+                <Dropdown
+                  value={branchSelected}
+                  onChange={(e, { value }) => {
+                    setBranchSelected(value);
+                  }}
+                  placeholder="Branch"
+                  selection
+                  options={configdata.branch}
                 />
-              </Modal.Actions>
-            </Modal>
-          </div>
+              </Grid.Column>
 
-          <div className="dropdown-menu-paper">
-            <div className="lottie-paper" ref={container}></div>
-
-            <div className="search-note">
-              <Header as="h3" textAlign="center">
-                Select to get specific notes
-              </Header>
-
-              <Grid stackable centered columns={2} padded relaxed>
-                <Grid.Column textAlign="center">
-                  <Dropdown
-                    value={branchSelected}
-                    onChange={(e, { value }) => {
-                      setBranchSelected(value);
-                    }}
-                    placeholder="Branch"
-                    selection
-                    options={configdata.branch}
-                  />
-                </Grid.Column>
-
-                <Grid.Column textAlign="center">
-                  <Dropdown
-                    onChange={findPaper}
-                    placeholder="Semester"
-                    selection
-                    options={configdata.semester}
-                  />
-                </Grid.Column>
-              </Grid>
-            </div>
+              <Grid.Column textAlign="center">
+                <Dropdown
+                  onChange={findPaper}
+                  placeholder="Semester"
+                  selection
+                  options={configdata.semester}
+                />
+              </Grid.Column>
+            </Grid>
           </div>
         </div>
-      
+      </div>
+
       {documentData.length ? (
         <div className="notefound">
           <Docuement data={documentData} />

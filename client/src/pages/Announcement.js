@@ -18,6 +18,7 @@ import "./Announcement.css";
 import axios from "axios";
 import { useAppState } from "../state";
 import Lottie from "lottie-web";
+import { toast } from "react-toastify";
 
 function Announcement() {
   const [formSuccess, setformSuccess] = useState(false);
@@ -35,15 +36,31 @@ function Announcement() {
   const container = useRef(null);
   const sendAnnouncement = async () => {
     try {
-      const response = await axios.post(
-        "http://localhost:5000/api/announcement",
-        {
+      // const response = await axios.post(
+      //   "http://localhost:5000/api/announcement",
+      //   {
+      //     title: title,
+      //     description: description,
+      //     subject: subject,
+      //     branch: branch,
+      //     semester: semester,
+      //     teacher: "nisarg",
+      //   }
+      // );
+
+      const response = await toast.promise(
+        axios.post("http://localhost:5000/api/announcement", {
           title: title,
           description: description,
           subject: subject,
           branch: branch,
           semester: semester,
           teacher: "nisarg",
+        }),
+        {
+          pending: "Uploading.....",
+          success: "Uploaded 👌",
+          error: "Failed to upload try again. 🤯",
         }
       );
       console.log(response);
@@ -54,7 +71,6 @@ function Announcement() {
   };
 
   useEffect(() => {
-    
     Lottie.loadAnimation({
       container: container.current,
       renderer: "svg",
@@ -62,7 +78,7 @@ function Announcement() {
       autoplay: true,
       animationData: require("../static/error.json"),
     });
-  }, [errors])
+  }, [errors]);
   const searchAnno = async (e, { value }) => {
     try {
       setTabledata([]);
@@ -80,7 +96,7 @@ function Announcement() {
   useEffect(() => {
     console.log("sad");
   }, [formSuccess]);
-  
+
   const branchDrop = [
     {
       text: "CE",
@@ -273,27 +289,26 @@ function Announcement() {
         {tabledata.length ? <AnnoMessage data={tabledata} /> : ""}
         {errors ? (
           <div className="errorParent">
-          <div className="error" ref={container}>
+            <div className="error" ref={container}></div>
+            <div className="errorText">
+              <Header as="h2" color="red">
+                Error
+              </Header>
+            </div>
           </div>
-          <div className="errorText">
-          <Header as='h2' color="red">
-            Error
-            </Header>
-          </div>
-          </div>
-        //   <Message
-        //   negative
-        //   icon='exclamation triangle'
-        //   header='No such Announcenment found'
-        //   content='For this category'
-        // />
+        ) : (
+          //   <Message
+          //   negative
+          //   icon='exclamation triangle'
+          //   header='No such Announcenment found'
+          //   content='For this category'
+          // />
           // <Message icon="exclamation triangle" negative centered>
           //   <Message.Header>
           //    No such Announcenment found
           //   </Message.Header>
           //   <p>For this category</p>
           // </Message>
-        ) : (
           ""
         )}
 

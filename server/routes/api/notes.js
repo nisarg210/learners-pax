@@ -39,8 +39,9 @@ router.post("/upload", upload.single("file"), async function (req, res) {
     const emails = studentlist.map((student) => student.email);
     const emailstring = emails.join([(separator = ", ")]);
     //  ------------------EMAIL PART-----------------
-    sendmail(req.body.name, req.body.teachername); 
-    res.json({ msg: "success" });
+    // sendmail(req.body.name, req.body.teachername);
+    // res.json({ msg: "success" });
+    res.status(500).json({ msg: "my error" });
   } catch (error) {
     console.log(error);
     fs.unlinkSync(req.file.path);

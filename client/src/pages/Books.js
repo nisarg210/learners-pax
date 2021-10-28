@@ -2,6 +2,7 @@ import axios from "axios";
 import Lottie from "lottie-web";
 import React, { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 import {
   Button,
   Divider,
@@ -43,13 +44,26 @@ function Books() {
       formdata.append("branch", data.branch);
       formdata.append("category", book);
       formdata.append("name", data.file[0].name);
-      const response = await axios.post(
-        "http://localhost:5000/api/note/upload",
-        formdata,
-        {
+      // const response = await axios.post(
+      //   "http://localhost:5000/api/note/upload",
+      //   formdata,
+      //   {
+      //     headers: {
+      //       "Content-Type": "multipart/form-data",
+      //     },
+      //   }
+      // );
+
+      const response = await toast.promise(
+        axios.post("http://localhost:5000/api/note/upload", formdata, {
           headers: {
             "Content-Type": "multipart/form-data",
           },
+        }),
+        {
+          pending: "Uploading.....",
+          success: "Uploaded 👌",
+          error: "Failed to upload try again. 🤯",
         }
       );
       console.log(response.data);

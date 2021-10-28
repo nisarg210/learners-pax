@@ -79,9 +79,7 @@ function Home() {
         </ul>
       </header>
       
-      <div className="about">
-      dsbsbdjsdbvlsbvlsdv
-      </div>
+      
      
     </div>
     // <motion.div
