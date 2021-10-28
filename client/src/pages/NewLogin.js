@@ -7,7 +7,7 @@ import { useAppState } from "../state";
 import "./NewLogin.css";
 
 function NewLogin(props) {
-  const {handle} = props;
+  const { handle } = props;
   const { setTeacher, getTeacher } = useAppState();
 
   const [name, setname] = useState("");
@@ -221,7 +221,12 @@ function NewLogin(props) {
                     setBranch(e.target.value);
                   }}
                 />
-                <input type="submit" name="" value="Sign Up" />
+                <input
+                  type="submit"
+                  name=""
+                  value="Sign Up"
+                  onClick={onRegister}
+                />
                 <p className="signup">
                   Already have an account ?
                   <a href="#" onClick={toggleForm}>

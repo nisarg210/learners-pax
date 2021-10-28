@@ -32,7 +32,9 @@ function Note() {
   const [documentData, setdocumentData] = useState([]);
   const [error, setError] = useState(false);
   const [branchSelected, setBranchSelected] = useState("");
+ 
   const note = "note";
+  
   const submit = async (data) => {
     try {
       let formdata = new FormData();
@@ -112,7 +114,7 @@ function Note() {
             onClose={() => setOpen(false)}
             onOpen={() => setOpen(true)}
             open={open}
-            trigger={isAuthenticated() ? <Button>Show Modal</Button> : ""}
+            trigger={isAuthenticated() ? <Button color="brown">Add Note</Button> : ""}
           >
             <Modal.Header>Upload a Announcement</Modal.Header>
             <Modal.Content>

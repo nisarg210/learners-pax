@@ -6,7 +6,7 @@ const router = express.Router();
 const multer = require("multer");
 const upload = multer({ dest: "uploads/" });
 const fs = require("fs");
-const google_upload = require("../../gapi/drive");
+const { upload_to_google, delete_from_drive } = require("../../gapi/drive");
 const sendmail = require("../../mails/sendmail");
 router.post("/upload", upload.single("file"), async function (req, res) {
   try {
@@ -16,7 +16,7 @@ router.post("/upload", upload.single("file"), async function (req, res) {
       mimeType: req.file.mimetype,
     };
     console.log(req.body.teachername);
-    const response = await google_upload(file);
+    const response = await upload_to_google(file);
     console.log("req.file.path");
     fs.unlink(req.file.path, (error) => {
       console.log(error);
@@ -39,8 +39,8 @@ router.post("/upload", upload.single("file"), async function (req, res) {
     const emails = studentlist.map((student) => student.email);
     const emailstring = emails.join([(separator = ", ")]);
     //  ------------------EMAIL PART-----------------
-    // sendmail(req.body.name, req.body.teachername);
-    // res.json({ msg: "success" });
+    sendmail(req.body.name, req.body.teachername, emailstring);
+    res.json({ msg: "success" });
     res.status(500).json({ msg: "my error" });
   } catch (error) {
     console.log(error);
@@ -52,21 +52,37 @@ router.post("/upload", upload.single("file"), async function (req, res) {
 router.get("/:category/:branch/:semester", async function (req, res) {
   try {
     const { branch, semester, category } = req.params;
-    const documentReceived = await document.find({
-      branch: branch,
-      semester: semester,
-      category: category,
-    });
+    const documentReceived = await document
+      .find({
+        branch: branch,
+        semester: semester,
+        category: category,
+      })
+      .sort({ date: -1 });
     if (documentReceived.length === 0) {
-      res.status(404).json({ msg: "Not FOund" });
+      return res.status(404).json({ msg: "Not FOund" });
     }
     const filter = documentReceived.map((document) => ({
       docid: document.docid,
       name: document.name,
       subject: document.subject,
       date: document.date,
+      teacher: document.teacher,
     }));
+
     res.send(filter);
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+router.delete("/:id", async function (req, res) {
+  try {
+    const { id } = req.params;
+    const deletedResponse = delete_from_drive(id);
+    const deletedDoc = await document.deleteOne({ docid: id });
+    res.json({ msg: "Deleted" });
+    res.statusCode = 200;
   } catch (error) {
     console.log(error);
   }

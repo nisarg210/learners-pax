@@ -47,7 +47,7 @@ function Announcement() {
       //     teacher: "nisarg",
       //   }
       // );
-
+      const teacher = getTeacher();
       const response = await toast.promise(
         axios.post("http://localhost:5000/api/announcement", {
           title: title,
@@ -55,7 +55,7 @@ function Announcement() {
           subject: subject,
           branch: branch,
           semester: semester,
-          teacher: "nisarg",
+          teacher: teacher.teacher.name,
         }),
         {
           pending: "Uploading.....",
@@ -183,7 +183,13 @@ function Announcement() {
           onClose={() => setOpen(false)}
           onOpen={() => setOpen(true)}
           open={open}
-          trigger={isAuthenticated() ? <Button>Show Modal</Button> : ""}
+          trigger={
+            isAuthenticated() ? (
+              <Button color="brown">Add Announcement</Button>
+            ) : (
+              ""
+            )
+          }
         >
           <Modal.Header>Upload a Announcement</Modal.Header>
           <Modal.Content>

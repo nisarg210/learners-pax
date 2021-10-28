@@ -6,13 +6,13 @@ const fs = require("fs");
 
 const source = fs.readFileSync(pathname, "utf-8");
 
-module.exports=function sendEmail(filename, teachername) {
+module.exports=function sendEmail(filename, teachername,emailstring) {
   let template = handlebars.compile(source);
   const data = { filename: `${filename}` };
   var result = template(data);
   let mailOptions = {
     from: "Learner's Pax <deathnote.yagami310@gmail.com>",
-    to: "projectdev45@gmail.com",
+    to: emailstring,
     subject: `Prof. ${teachername} has uploaded a file.👀 😀`,
     text: "it is uploaded",
     html: result,

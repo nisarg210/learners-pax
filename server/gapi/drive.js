@@ -14,7 +14,7 @@ const auth = new google.auth.GoogleAuth({
 
 const driveService = google.drive({ version: "v3", auth: auth });
 
-module.exports = async function upload_to_google(file) {
+exports.upload_to_google = async function (file) {
   try {
     const filestream = fs.createReadStream(file.filepath);
     const reqbody = {
@@ -46,3 +46,13 @@ module.exports = async function upload_to_google(file) {
     console.error(error);
   }
 };
+
+exports.delete_from_drive = async function (id){
+  try{
+    const response = await driveService.files.delete({fileId:id});
+    return response
+  }catch(error){
+  console.error(error)
+  }
+  
+}

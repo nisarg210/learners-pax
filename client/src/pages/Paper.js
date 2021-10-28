@@ -115,7 +115,9 @@ function Paper() {
             onClose={() => setOpen(false)}
             onOpen={() => setOpen(true)}
             open={open}
-            trigger={isAuthenticated() ? <Button>Show Modal</Button> : ""}
+            trigger={
+              isAuthenticated() ? <Button color="brown">Add Paper</Button> : ""
+            }
           >
             <Dimmer active={false}>
               <Loader />

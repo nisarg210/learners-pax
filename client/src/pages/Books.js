@@ -110,7 +110,7 @@ function Books() {
               onClose={() => setOpen(false)}
               onOpen={() => setOpen(true)}
               open={open}
-              trigger={isAuthenticated() ? <Button>Show Modal</Button> : ""}
+              trigger={isAuthenticated() ? <Button color="brown">Add Book</Button> : ""}
             >
               <Modal.Header>Upload a Announcement</Modal.Header>
               <Modal.Content>
